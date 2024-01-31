@@ -84,6 +84,7 @@ double& Matrix::operator()(size_t rowId, size_t colId)
     if (colId >= this->m_colSize) {
         throw std::invalid_argument("Quick access: Column index out of range!!!");
     }
+
     return this->m_matrix[rowId][colId];
 }
 
@@ -98,6 +99,7 @@ const double& Matrix::operator()(size_t rowId, size_t colId) const
     if (colId >= this->m_colSize) {
         throw std::invalid_argument("Quick access: Column index out of range!!!");
     }
+
     return this->m_matrix[rowId][colId];
 }
 
@@ -152,6 +154,7 @@ bool Matrix::isEqualTo(const Matrix& rhs) const
 void Matrix::print() const
 {
     size_t i, j;
+    
     std::cout << "Matrix: " << std::endl;
     for (i = 0; i < this->m_rowSize; i++) {
         std::cout << "[";

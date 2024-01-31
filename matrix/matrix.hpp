@@ -18,7 +18,7 @@ public:
     Matrix operator-(const Matrix& rhs) const;
     Matrix operator*(const Matrix& rhs) const;
 
-    // Non-const element access
+    // Element quick access
     double& operator()(size_t rowId, size_t colId);
     const double& operator()(size_t rowId, size_t colId) const;
 
