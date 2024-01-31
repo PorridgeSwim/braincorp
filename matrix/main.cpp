@@ -8,25 +8,27 @@ int main()
 
     // Display the original matrices
     std::cout << "Matrix A:" << std::endl;
-    for (size_t i = 0; i < matA.getRowSize(); ++i) {
-        for (size_t j = 0; j < matA.getColSize(); ++j) {
+    for (size_t i = 0; i < matA.getRowSize(); i++) {
+        for (size_t j = 0; j < matA.getColSize(); j++) {
             std::cout << matA(i, j) << " ";
         }
         std::cout << std::endl;
     }
 
     std::cout << "Matrix B:" << std::endl;
-    for (size_t i = 0; i < matB.getRowSize(); ++i) {
-        for (size_t j = 0; j < matB.getColSize(); ++j) {
+    matB.transpose();
+    for (size_t i = 0; i < matB.getRowSize(); i++) {
+        for (size_t j = 0; j < matB.getColSize(); j++) {
             std::cout << matB(i, j) << " ";
         }
         std::cout << std::endl;
     }
-    Matrix sum = matA - matB;
-    std::cout << "Transposed Matrix A:" << std::endl;
-    for (size_t i = 0; i < sum.getRowSize(); ++i) {
-        for (size_t j = 0; j < sum.getColSize(); ++j) {
-            std::cout << sum(i, j) << " ";
+
+    std::cout << "A * B:" << std::endl;
+    Matrix mat = matA * matB;
+    for (size_t i = 0; i < mat.getRowSize(); i++) {
+        for (size_t j = 0; j < mat.getColSize(); j++) {
+            std::cout << mat(i, j) << " ";
         }
         std::cout << std::endl;
     }
