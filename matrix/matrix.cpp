@@ -11,10 +11,10 @@ Matrix::Matrix(size_t rowSize, size_t colSize, double initial)
 
     // error checking
     if (rowSize <= 0) {
-        throw std::invalid_argument("Row size must be greater than 0!!!");
+        throw std::invalid_argument("Constructor: Row size must be greater than 0!!!");
     }
     if (colSize <= 0) {
-        throw std::invalid_argument("Column size must be greater than 0!!!");
+        throw std::invalid_argument("Constructor: Column size must be greater than 0!!!");
     }
 
     // initialization
@@ -27,19 +27,20 @@ Matrix::Matrix(size_t rowSize, size_t colSize, double initial)
 }
 
 // initizalize matrix with the given vector that has length rowSize * colSize
+//
 Matrix::Matrix(size_t rowSize, size_t colSize, const vector<double>& i_vector)
 {
     size_t i, j;
 
     // error checking
     if (rowSize <= 0) {
-        throw std::invalid_argument("Row size must be greater than 0!!!");
+        throw std::invalid_argument("Constructor: Row size must be greater than 0!!!");
     }
     if (colSize <= 0) {
-        throw std::invalid_argument("Column size must be greater than 0!!!");
+        throw std::invalid_argument("Constructor: Column size must be greater than 0!!!");
     }
     if (rowSize * colSize != i_vector.size()) {
-        throw std::invalid_argument("Input vector size is inconsistent with given row and column size!!!");
+        throw std::invalid_argument("Constructor: Input vector size is inconsistent with given row and column size!!!");
     }
 
     //initizalization
@@ -55,6 +56,7 @@ Matrix::Matrix(size_t rowSize, size_t colSize, const vector<double>& i_vector)
 }
 
 // initizalize matrix with the copy of another matrix
+//
 Matrix::Matrix(const Matrix& other)
 {
     size_t i, j;
@@ -75,11 +77,12 @@ Matrix::Matrix(const Matrix& other)
 //
 double& Matrix::operator()(size_t rowId, size_t colId)
 {
+    // error checking
     if (rowId >= this->m_rowSize) {
-        throw std::invalid_argument("Row index out of range!!!");
+        throw std::invalid_argument("Quick access: Row index out of range!!!");
     }
     if (colId >= this->m_colSize) {
-        throw std::invalid_argument("Column index out of range!!!");
+        throw std::invalid_argument("Quick access: Column index out of range!!!");
     }
     return this->m_matrix[rowId][colId];
 }
@@ -88,11 +91,12 @@ double& Matrix::operator()(size_t rowId, size_t colId)
 //
 const double& Matrix::operator()(size_t rowId, size_t colId) const
 {
+    // error checking
     if (rowId >= this->m_rowSize) {
-        throw std::invalid_argument("Row index out of range!!!");
+        throw std::invalid_argument("Quick access: Row index out of range!!!");
     }
     if (colId >= this->m_colSize) {
-        throw std::invalid_argument("Column index out of range!!!");
+        throw std::invalid_argument("Quick access: Column index out of range!!!");
     }
     return this->m_matrix[rowId][colId];
 }
@@ -116,17 +120,22 @@ size_t Matrix::getColSize() const
 bool Matrix::isEqualTo(const Matrix& rhs) const
 {
     size_t leftRowSize, rightRowSize, leftColSize, rightColSize, i, j;
+
+    // return false if row sizes are unequal
     leftRowSize = this->m_rowSize;
     rightRowSize = rhs.getRowSize();
     if (leftRowSize != rightRowSize) {
         return false;
     }
+
+    // return false if column sizes are unequal
     leftColSize = this->m_colSize;
     rightColSize = rhs.getColSize();
     if (leftColSize != rightColSize) {
         return false;
     }
 
+    // return false if two elements in the same place are unequal
     for (i = 0; i < leftRowSize; i++) {
         for (j = 0; j < leftColSize; j++) {
             if (this->m_matrix[i][j] != rhs(i,j)) {
@@ -135,6 +144,7 @@ bool Matrix::isEqualTo(const Matrix& rhs) const
         }
     }
 
+    // else, return true
     return true;
 }
 
@@ -160,18 +170,19 @@ Matrix Matrix::operator+(const Matrix& rhs) const
 {
     size_t leftRowSize, rightRowSize, leftColSize, rightColSize, i, j;
 
+    // error checking
     leftRowSize = this->m_rowSize;
     rightRowSize = rhs.getRowSize();
     if (leftRowSize != rightRowSize) {
-        throw std::invalid_argument("Different row sizes!!!");
+        throw std::invalid_argument("Matrix Addition: Different row sizes!!!");
     }
-
     leftColSize = this->m_colSize;
     rightColSize = rhs.getColSize();
     if (leftColSize != rightColSize) {
-        throw std::invalid_argument("Different column sizes!!!");
+        throw std::invalid_argument("Matrix Addition: Different column sizes!!!");
     }
 
+    // implement addition
     Matrix sum(leftRowSize, leftColSize, 0.0);
     for (i = 0; i < leftRowSize; i++) {
         for (j = 0; j < leftColSize; j++) {
@@ -187,18 +198,19 @@ Matrix Matrix::operator-(const Matrix& rhs) const
 {
     size_t leftRowSize, rightRowSize, leftColSize, rightColSize, i, j;
 
+    // error checking
     leftRowSize = this->m_rowSize;
     rightRowSize = rhs.getRowSize();
     if (leftRowSize != rightRowSize) {
-        throw std::invalid_argument("Different row sizes!!!");
+        throw std::invalid_argument("Matrix substraction: Different row sizes!!!");
     }
-
     leftColSize = this->m_colSize;
     rightColSize = rhs.getColSize();
     if (leftColSize != rightColSize) {
-        throw std::invalid_argument("Different column sizes!!!");
+        throw std::invalid_argument("Matrix substraction: Different column sizes!!!");
     }
 
+    // implement substraction
     Matrix diff(leftRowSize, leftColSize, 0.0);
     for (i = 0; i < leftRowSize; i++) {
         for (j = 0; j < leftColSize; j++) {
@@ -213,13 +225,17 @@ Matrix Matrix::operator-(const Matrix& rhs) const
 Matrix Matrix::operator*(const Matrix& rhs) const
 {
     size_t leftRowSize, rightRowSize, leftColSize, rightColSize, i, j, k;
+
+    // error checking
     leftRowSize = this->m_rowSize;
     leftColSize = this->m_colSize;
     rightRowSize = rhs.getRowSize();
     rightColSize = rhs.getColSize();
     if (leftColSize != rightRowSize) {
-        throw std::invalid_argument("The sizes of two matrices are unmatched!!!");
+        throw std::invalid_argument("Matrix multiplication: The sizes of two matrices are unmatched!!!");
     }
+
+    // implement multiplication
     Matrix product(leftRowSize, rightColSize, 0.0);
     for (i = 0; i < leftRowSize; i++) {
         for (j = 0; j < rightColSize; j++) {
@@ -238,6 +254,7 @@ void Matrix::transpose()
     vector<vector<double>> newMatrix;
     size_t i, j, temp;
 
+    // get the transposed matrix
     newMatrix.resize(this->m_colSize);
     for (i = 0; i < this->m_colSize; i++) {
         newMatrix[i].resize(this->m_rowSize);
@@ -245,6 +262,8 @@ void Matrix::transpose()
             newMatrix[i][j] = this->m_matrix[j][i];
         }
     }
+
+    // replace the old matrix by the transposed one
     this->m_matrix = newMatrix;
     temp = this->m_colSize;
     this->m_colSize = this->m_rowSize;
