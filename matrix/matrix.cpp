@@ -54,6 +54,23 @@ Matrix::Matrix(size_t rowSize, size_t colSize, const vector<double>& i_vector)
     }
 }
 
+// initizalize matrix with the copy of another matrix
+Matrix::Matrix(const Matrix& other)
+{
+    size_t i, j;
+
+    //initizalization
+    this->m_rowSize = other.getRowSize();
+    this->m_colSize = other.getColSize();
+    this->m_matrix.resize(this->m_rowSize);
+    for (i = 0; i < this->m_rowSize; i++) {
+        this->m_matrix[i].resize(this->m_colSize);
+        for (j = 0; j < this->m_colSize; j++) {
+            this->m_matrix[i][j] = other(i,j);
+        }
+    }
+}
+
 // non-const quick access of matrix element
 //
 double& Matrix::operator()(size_t rowId, size_t colId)
@@ -94,6 +111,8 @@ size_t Matrix::getColSize() const
     return this->m_colSize;
 }
 
+// return whether the two matrices are equal
+//
 bool Matrix::isEqualTo(const Matrix& rhs) const
 {
     size_t leftRowSize, rightRowSize, leftColSize, rightColSize, i, j;
@@ -117,6 +136,20 @@ bool Matrix::isEqualTo(const Matrix& rhs) const
     }
 
     return true;
+}
+
+// print the matrix
+void Matrix::print() const
+{
+    size_t i, j;
+    std::cout << "Matrix: " << std::endl;
+    for (i = 0; i < this->m_rowSize; i++) {
+        std::cout << "[";
+        for (j = 0; j < this->m_colSize; j++) {
+            std::cout << m_matrix[i][j] << " ";
+        }
+        std::cout << "]" << std::endl;
+    }
 }
 
 
