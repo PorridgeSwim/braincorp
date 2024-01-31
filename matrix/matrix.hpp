@@ -21,7 +21,6 @@ public:
     double& operator()(size_t rowId, size_t colId);
     const double& operator()(size_t rowId, size_t colId) const;
 
-
     // Transpose
     void transpose();
 
@@ -32,7 +31,7 @@ public:
 
 private:
     size_t m_rowSize, m_colSize;
-    bool M_transposed;
+    // bool m_transposed;
     vector<vector<double>> m_matrix;
 };
 

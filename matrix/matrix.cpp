@@ -54,6 +54,8 @@ Matrix::Matrix(size_t rowSize, size_t colSize, const vector<double>& i_vector)
     }
 }
 
+// non-const quick access of matrix element
+//
 double& Matrix::operator()(size_t rowId, size_t colId)
 {
     if (rowId >= this->m_rowSize) {
@@ -65,6 +67,8 @@ double& Matrix::operator()(size_t rowId, size_t colId)
     return this->m_matrix[rowId][colId];
 }
 
+// const quick access of matrix element
+//
 const double& Matrix::operator()(size_t rowId, size_t colId) const
 {
     if (rowId >= this->m_rowSize) {
@@ -76,16 +80,49 @@ const double& Matrix::operator()(size_t rowId, size_t colId) const
     return this->m_matrix[rowId][colId];
 }
 
+// get the number of rows
+//
 size_t Matrix::getRowSize() const
 {
     return this->m_rowSize;
 }
 
+// get the number of columns
+//
 size_t Matrix::getColSize() const
 {
     return this->m_colSize;
 }
 
+bool Matrix::isEqualTo(const Matrix& rhs) const
+{
+    size_t leftRowSize, rightRowSize, leftColSize, rightColSize, i, j;
+    leftRowSize = this->m_rowSize;
+    rightRowSize = rhs.getRowSize();
+    if (leftRowSize != rightRowSize) {
+        return false;
+    }
+    leftColSize = this->m_colSize;
+    rightColSize = rhs.getColSize();
+    if (leftColSize != rightColSize) {
+        return false;
+    }
+
+    for (i = 0; i < leftRowSize; i++) {
+        for (j = 0; j < leftColSize; j++) {
+            if (this->m_matrix[i][j] != rhs(i,j)) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+
+
+// implement matrix addition
+//
 Matrix Matrix::operator+(const Matrix& rhs) const
 {
     size_t leftRowSize, rightRowSize, leftColSize, rightColSize, i, j;
@@ -111,6 +148,8 @@ Matrix Matrix::operator+(const Matrix& rhs) const
     return sum;
 }
 
+// implement matrix substraction
+//
 Matrix Matrix::operator-(const Matrix& rhs) const
 {
     size_t leftRowSize, rightRowSize, leftColSize, rightColSize, i, j;
@@ -136,6 +175,8 @@ Matrix Matrix::operator-(const Matrix& rhs) const
     return diff;
 }
 
+// implement matrix multiplication
+//
 Matrix Matrix::operator*(const Matrix& rhs) const
 {
     size_t leftRowSize, rightRowSize, leftColSize, rightColSize, i, j, k;
@@ -157,6 +198,8 @@ Matrix Matrix::operator*(const Matrix& rhs) const
     return product;
 }
 
+// implement matrix transpose
+//
 void Matrix::transpose()
 {
     vector<vector<double>> newMatrix;
